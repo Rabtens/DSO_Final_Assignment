@@ -1,9 +1,5 @@
-export function calculateBMI(weight: number, height: number): number {
-  if (height <= 0) {
-    throw new Error("Height must be greater than zero");
+export function calculateBMI(height: number, weight: number): number | null {
+    if (!height || !weight || height <= 0 || weight <= 0) return null;
+    const heightInMeters = height / 100;
+    return +(weight / (heightInMeters * heightInMeters)).toFixed(1);
   }
-
-  const bmi = weight / (height * height);
-  return parseFloat(bmi.toFixed(2)); // round to 2 decimal places
-}
-
