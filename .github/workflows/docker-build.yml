@@ -1,31 +1,3 @@
-# name: Docker Build and Push
-# on: push
-# jobs:
-#   build-and-push:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-#       - name: Build and Push Frontend
-#         run: |
-#          #refer the docker compose file and dockerfiles from the repository
-
-#       - name: Build and Push Backend
-#         run: |
-#          #refer the docker compose file and dockerfiles from the repository
-
-#       # Optional: DB image if not using Render's managed DB
-#       - name: Build and Push DB
-#         run: |
-#          #refer the docker compose file and dockerfiles from the repository
-
 name: Docker Build and Push
 
 on:
