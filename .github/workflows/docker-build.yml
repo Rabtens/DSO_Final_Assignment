@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - main  # or main depending on your branch name
+      - main
 
 jobs:
   build-and-push:
@@ -19,26 +19,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Backend Build and Push
-      - name: Build Backend Image
+      - name: Build and Push Backend (Dev)
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bmi-backend-dev:latest -f backend/Dockerfile.dev backend
-
-      - name: List Docker images after backend build
-        run: docker images
-
-      - name: Push Backend Image
-        run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bmi-backend-dev:latest
 
-      # Frontend Build and Push
-      - name: Build Frontend Image
+      - name: Build and Push Frontend (Dev)
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bmi-frontend-dev:latest -f frontend/Dockerfile.dev frontend
-
-      - name: List Docker images after frontend build
-        run: docker images
-
-      - name: Push Frontend Image
-        run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bmi-frontend-dev:latest
