@@ -1,44 +1,85 @@
 pipeline {
-  agent any
-  environment {
-    // Store GitHub credentials in Jenkins Secrets
-    GITHUB_CREDS = credentials('github-credentials')
-  }
-  stages {
-    stage('Check Commit Message') {
-      steps {
-        script {
-          // Check if commit message contains "@push"
-          def commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-          if (commitMsg.contains("@push")) {
-            echo "Triggering GitHub push..."
-          } else {
-            error("Commit message does not contain '@push'. Aborting.")
-          }
-        }
-      }
-    }
-     stage(‘Build’){
-       // relevant build steps 
-     }
+    agent any
 
-    	stage('Test') {
-        // relevant test steps
-    	}
-    stage('Push to GitHub') {
-      steps {
-        withCredentials([usernamePassword(
-          credentialsId: 'github-credentials',
-          usernameVariable: 'GITHUB_USER',
-          passwordVariable: 'GITHUB_TOKEN'
-        )]) {
-          sh '''
-            git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/yourusername/my-app.git
-            git push origin HEAD:main
-          '''
-        }
-      }
+    environment {
+        // Replace with your Jenkins credentials ID for GitHub
+        GIT_CREDENTIALS_ID = 'github_credentials'
+        // Replace with your repository URL
+        REPO_URL = 'https://github.com/Rabtens/DSO_Final_Assignment.git'
+        // Branch to push to
+        BRANCH = 'main'
     }
-  }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code using Jenkins credentials
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "*/${env.BRANCH}"]],
+                    userRemoteConfigs: [[
+                        url: "${env.REPO_URL}",
+                        credentialsId: "${env.GIT_CREDENTIALS_ID}"
+                    ]]
+                ])
+            }
+        }
+
+        stage('Check Commit Message') {
+            steps {
+                script {
+                    // Get the latest commit message
+                    env.GIT_COMMIT_MESSAGE = sh(
+                        script: "git log -1 --pretty=%B",
+                        returnStdout: true
+                    ).trim()
+                    echo "Latest commit message: ${env.GIT_COMMIT_MESSAGE}"
+                }
+            }
+        }
+
+        stage('Push to GitHub if @push') {
+            when {
+                expression {
+                    return env.GIT_COMMIT_MESSAGE?.contains('@push')
+                }
+            }
+            steps {
+                script {
+                    // Push frontend changes
+                    dir('frontend') {
+                        sh '''
+                            git config user.name "jenkins"
+                            git config user.email "jenkins@example.com"
+                            
+                            git add .
+                            if git diff --cached --quiet; then
+                            echo "No changes to commit in frontend."
+                            else
+                            git commit -m "Auto-push frontend changes [ci skip]"
+                            git push origin ${BRANCH}
+                            fi
+                        '''
+                    }
+
+                    // Push backend changes
+                    dir('backend') {
+                        sh '''
+                            git config user.name "jenkins"
+                            git config user.email "jenkins@example.com"
+                            
+                            git add .
+                            if git diff --cached --quiet; then
+                            echo "No changes to commit in backend."
+                            else
+                            git commit -m "Auto-push backend changes [ci skip]"
+                            git push origin ${BRANCH}
+                            fi
+                        '''
+                    }
+                }
+            }
+        }
+
+    }
 }
-
