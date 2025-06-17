@@ -1,4 +1,4 @@
-# Production build stage (updated to Node.js 18)
+# Production build stage (Node.js 18)
 FROM node:18 as build
 
 WORKDIR /app
@@ -7,9 +7,9 @@ WORKDIR /app
 ENV NODE_OPTIONS=--max_old_space_size=4096
 ENV PATH /app/node_modules/.bin:$PATH
 
-# Install dependencies (production-only for smaller image)
+# Install dependencies (with --legacy-peer-deps as a temporary fix)
 COPY package.json sync-package-lock ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev --legacy-peer-deps
 
 # Copy and build the app
 COPY src ./src
