@@ -1,0 +1,825 @@
+/* Variables converted to CSS custom properties */
+:root {
+  --primary-color: #7c3aed;
+  --secondary-color: #6b7280;
+  --success-color: #059669;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-blue: #06b6d4;
+  
+  --underweight-color: #06b6d4;
+  --normal-color: #059669;
+  --overweight-color: #f59e0b;
+  --obese-color: #ef4444;
+  
+  --background-color: #faf5ff;
+  --card-background: #ffffff;
+  --border-color: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  
+  --border-radius: 12px;
+  --border-radius-small: 8px;
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --box-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Main app container */
+.bmi-app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header styles */
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.app-header .app-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.025em;
+}
+
+.app-header .app-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Tab navigation - Updated with rounded pill design */
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border-radius: 50px;
+  padding: 8px;
+  margin-bottom: 32px;
+  gap: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-navigation .tab-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border: 2px solid var(--border-color);
+  background: var(--card-background);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  box-shadow: var(--box-shadow);
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+}
+
+.tab-navigation .tab-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.tab-navigation .tab-button:hover::before {
+  left: 100%;
+}
+
+.tab-navigation .tab-button .tab-icon {
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.tab-navigation .tab-button .tab-text {
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.tab-navigation .tab-button:hover {
+  background: #f8fafc;
+  color: var(--text-primary);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-hover);
+}
+
+.tab-navigation .tab-button:hover .tab-icon {
+  transform: scale(1.1);
+}
+
+.tab-navigation .tab-button.active {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #8b5cf6 100%);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+  transform: translateY(-3px);
+  z-index: 2;
+}
+
+.tab-navigation .tab-button.active .tab-icon {
+  transform: scale(1.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Main content */
+.app-content {
+  margin-bottom: 32px;
+}
+
+/* Calculator section */
+.calculator-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.input-form {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 32px;
+  box-shadow: var(--box-shadow);
+}
+
+.input-form .section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.input-group .input-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.input-group .input-label .label-icon {
+  font-size: 1.1rem;
+}
+
+.input-group .input-field {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.input-group .input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.input-group .input-field::placeholder {
+  color: var(--text-muted);
+}
+
+/* Button styles */
+.button-group {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn .btn-icon {
+  font-size: 1.1rem;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: var(--box-shadow);
+}
+
+.btn.btn-primary:hover:not(:disabled) {
+  background: #6d28d9;
+  box-shadow: var(--box-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.btn.btn-secondary {
+  background: var(--success-color);
+  color: white;
+  box-shadow: var(--box-shadow);
+}
+
+.btn.btn-secondary:hover:not(:disabled) {
+  background: #047857;
+  box-shadow: var(--box-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.btn.btn-outline {
+  background: white;
+  color: var(--text-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.btn.btn-outline:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.btn.btn-refresh {
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+}
+
+.btn.btn-refresh:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.btn.btn-danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn.btn-small {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+}
+
+/* Result card */
+.result-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 32px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+}
+
+.result-card .result-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.result-card .result-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.result-card .bmi-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result-card .bmi-value .bmi-number {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.result-card .bmi-value .bmi-label {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.result-card .bmi-category {
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.result-card .bmi-category.underweight {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--underweight-color);
+}
+
+.result-card .bmi-category.normal {
+  background: rgba(5, 150, 105, 0.1);
+  color: var(--normal-color);
+}
+
+.result-card .bmi-category.overweight {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--overweight-color);
+}
+
+.result-card .bmi-category.obese {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--obese-color);
+}
+
+.advice-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: var(--border-radius-small);
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.advice-box .advice-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.advice-box .advice-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* BMI Scale */
+.bmi-scale .scale-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.bmi-scale .scale-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.bmi-scale .scale-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px;
+  border-radius: var(--border-radius-small);
+  font-size: 0.875rem;
+}
+
+.bmi-scale .scale-item .scale-range {
+  font-weight: 700;
+  color: white;
+}
+
+.bmi-scale .scale-item .scale-label {
+  font-weight: 500;
+  color: white;
+  opacity: 0.9;
+}
+
+.bmi-scale .scale-item.underweight {
+  background: var(--underweight-color);
+}
+
+.bmi-scale .scale-item.normal {
+  background: var(--normal-color);
+}
+
+.bmi-scale .scale-item.overweight {
+  background: var(--overweight-color);
+}
+
+.bmi-scale .scale-item.obese {
+  background: var(--obese-color);
+}
+
+/* History section */
+.history-section .history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.history-section .history-header .section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.loading-state, .empty-state {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+}
+
+.loading-state .loading-icon, .empty-state .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.loading-state .loading-text, .empty-state .empty-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.empty-state .empty-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* History content */
+.history-content .history-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--card-background);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--box-shadow);
+}
+
+.history-content .history-stats .stats-icon {
+  font-size: 1.25rem;
+}
+
+.history-content .history-stats .stats-text {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.history-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--box-shadow);
+  transition: all 0.2s ease;
+}
+
+.history-card:hover {
+  box-shadow: var(--box-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.history-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.history-card .bmi-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: white;
+}
+
+.history-card .bmi-badge.underweight {
+  background: var(--underweight-color);
+}
+
+.history-card .bmi-badge.normal {
+  background: var(--normal-color);
+}
+
+.history-card .bmi-badge.overweight {
+  background: var(--overweight-color);
+}
+
+.history-card .bmi-badge.obese {
+  background: var(--obese-color);
+}
+
+.history-card .card-date {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.history-card .card-body {
+  margin-bottom: 16px;
+}
+
+.history-card .category-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.history-card .category-badge.underweight {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--underweight-color);
+}
+
+.history-card .category-badge.normal {
+  background: rgba(5, 150, 105, 0.1);
+  color: var(--normal-color);
+}
+
+.history-card .category-badge.overweight {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--overweight-color);
+}
+
+.history-card .category-badge.obese {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--obese-color);
+}
+
+.history-card .metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.history-card .metric {
+  text-align: center;
+  padding: 12px 8px;
+  background: #f9fafb;
+  border-radius: var(--border-radius-small);
+}
+
+.history-card .metric .metric-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.history-card .metric .metric-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.history-card .card-advice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: var(--border-radius-small);
+  margin-bottom: 16px;
+}
+
+.history-card .card-advice .advice-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.history-card .card-advice .advice-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.history-card .card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Message styles */
+.message {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  max-width: 400px;
+  padding: 16px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-hover);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+.message.success {
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.message.error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.message .message-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.message .message-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .bmi-app {
+    padding: 16px;
+  }
+  
+  .app-header .app-title {
+    font-size: 2rem;
+  }
+  
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn {
+    justify-content: center;
+  }
+  
+  .tab-navigation {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 300px;
+  }
+  
+  .tab-navigation .tab-button {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .tab-navigation .tab-button .tab-text {
+    display: block;
+  }
+  
+  .history-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .history-card .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .history-section .history-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  
+  .message {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header .app-title {
+    font-size: 1.75rem;
+  }
+  
+  .app-header .app-subtitle {
+    font-size: 1rem;
+  }
+  
+  .input-form {
+    padding: 24px 20px;
+  }
+  
+  .result-card {
+    padding: 24px 20px;
+  }
+  
+  .result-card .bmi-value .bmi-number {
+    font-size: 2.5rem;
+  }
+  
+  .bmi-scale .scale-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tab-navigation {
+    padding: 6px;
+  }
+  
+  .tab-navigation .tab-button {
+    padding: 12px 20px;
+  }
+}
