@@ -15,7 +15,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY sync-package-lock ./
 # In production, we will use the package lock generated in the development process. No versions surprises.
-RUN npm clean-install
+RUN npm install
 
 # Build
 COPY src ./src
