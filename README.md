@@ -227,7 +227,9 @@ Just set COMPOSE_BAKE=true
 failed to solve: failed to compute cache key: failed to calculate checksum of ref 094ae383-bb2c-4735-9e6f-d29e3f6a56d1::qcepdafad20a69ly30x2tj93a: "/database/migrations": not found
 
 ```
-And eventually not able to solve the error.
+And eventually after updating the node version to new one then test succeeded:
+
+![alt text](<output screenshots/Screenshot from 2025-06-18 19-35-48.png>)
 
 ## Stage 2: Jenkins Automation
 
@@ -393,7 +395,19 @@ GitHub Actions successfully builds and pushes Docker images
     - `PORT` - 5000
     - `NODE_ENV` - production
 
-![alt text](<output screenshots/Screenshot from 2025-06-18 10-07-30.png>)
+![alt text](<output screenshots/Screenshot from 2025-06-18 19-22-39.png>)
+
+### Setting Up the Frontend Service
+
+1. **Created another Web Service** for the frontend
+2. **Set build command:** `npm run build`
+3. **Set start command:** `serve -s build`
+4. **Set environment variable:**
+    - `REACT_APP_API_URL` - URL of my backend service
+
+![alt text](<output screenshots/Screenshot from 2025-06-18 19-26-49.png>)
+
+![alt text](<output screenshots/Screenshot from 2025-06-18 19-26-57.png>)
 
 ## Problems I Faced and How I Solved Them
 
@@ -413,7 +427,11 @@ How I fixed it: I learned to properly use async/await in Jest tests and added pr
 ### Problem 5: Nginx Upstream Backend Not Found (Frontend render deployment Failed)
 
 - What went wrong: The nginx container is failing to start because it cannot resolve the upstream server named "backend" specified in /etc/nginx/conf.d/default.conf at line
-
+- How I solved it: Used separate containers, starting the backend first:
+```bash
+docker-compose up backend
+docker-compose up nginx
+```
 ## How to Use My BMI Calculator
 1. **Enter your information:**
     - Height in centimeters (like 175 for 5'9")
@@ -434,13 +452,15 @@ How I fixed it: I learned to properly use async/await in Jest tests and added pr
 
 ### My Live Application
 
-- **Backend API:** [https://backend-1-1fpx.onrender.com/](https://backend-1-1fpx.onrender.com/)
+- **Backend API:** [https://pern-backend-1.onrender.com](https://pern-backend-1.onrender.com)
+
+- **Frontend API:**  [https://pern-frontend-1-uez2.onrender.com](https://pern-frontend-1-uez2.onrender.com)
 
 
 ### Docker Images
 
-- **Frontend Image:** [https://hub.docker.com/repository/docker/rabtens/frontend/general](https://hub.docker.com/repository/docker/rabtens/frontend/general)
-- **Backend Image:** [https://hub.docker.com/repository/docker/rabtens/backend/general](https://hub.docker.com/repository/docker/rabtens/backend/general)
+- **Frontend Image:** [https://hub.docker.com/repository/docker/rabtens/pern-frontend/general](https://hub.docker.com/repository/docker/rabtens/pern-frontend/general)
+- **Backend Image:** [https://hub.docker.com/repository/docker/rabtens/pern-backend/general](https://hub.docker.com/repository/docker/rabtens/pern-backend/general)
 
 ### Source Code
 
