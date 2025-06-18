@@ -410,6 +410,10 @@ How I fixed it: I learned to properly use async/await in Jest tests and added pr
 ### Problem 4: Test Data Pollution
 - What went wrong: Running tests multiple times caused failures because previous test data wasn't being cleaned up, affecting BMI calculation tests.
 
+### Problem 5: Nginx Upstream Backend Not Found (Frontend render deployment Failed)
+
+- What went wrong: The nginx container is failing to start because it cannot resolve the upstream server named "backend" specified in /etc/nginx/conf.d/default.conf at line
+
 ## How to Use My BMI Calculator
 1. **Enter your information:**
     - Height in centimeters (like 175 for 5'9")
