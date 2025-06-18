@@ -12,7 +12,6 @@ import HTTP_CODE from './errors/httpCodes'
 import dotenv from 'dotenv'
 dotenv.config()
 
-
 // Environment execution info
 console.log(`Running in ${PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'} mode\n`)
 
@@ -45,13 +44,49 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-
 export const API_PREFIX = '/api'
 
+// Static file serving
 app.use(`${API_PREFIX}/public`, express.static('public'))
 app.use(`${API_PREFIX}/uploads`, express.static('uploads'))
+
+// Root endpoint - handles requests to "/"
+app.get('/', (req: Request, res: Response) => {
+  res.json({ 
+    message: 'Backend API is running successfully!',
+    status: 'healthy',
+    apiPrefix: API_PREFIX,
+    availableEndpoints: `${API_PREFIX}/*`,
+    environment: PRODUCTION ? 'production' : 'development'
+  })
+})
+
+// Health check endpoint
+app.get('/health', (req: Request, res: Response) => {
+  res.json({ 
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  })
+})
+
+// API routes
 app.use(API_PREFIX, routes)
 
+// Debug: Log registered routes (optional - remove in production)
+if (!PRODUCTION) {
+  console.log('\nRegistered routes:')
+  app._router.stack.forEach((middleware: any) => {
+    if (middleware.route) {
+      const methods = Object.keys(middleware.route.methods).join(', ').toUpperCase()
+      console.log(`${methods} ${middleware.route.path}`)
+    } else if (middleware.name === 'router') {
+      // For router middleware, log the base path
+      console.log(`Router mounted at: ${middleware.regexp.source}`)
+    }
+  })
+  console.log('')
+}
 
 // 404 Not Found Errors
 app.use(errorHandler((req: Request, res: Response, next: NextFunction) => {
@@ -67,8 +102,9 @@ interface ExpressError extends Error {
 // 500 Internal Errors
 app.use((err: ExpressError, req: Request, res: Response, next: NextFunction) => {
   const isUnexpectedError = err.status === undefined
-  console.log(err.message)
-  console.log(err.stack)
+  console.log('Error occurred:', err.message)
+  console.log('Error stack:', err.stack)
+  
   res.status(err.status || HTTP_CODE.INTERNAL_ERROR)
   res.json({
     // For unexpected errors in production, hide the message since it could contain relevant info
