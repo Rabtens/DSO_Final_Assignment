@@ -1,4 +1,5 @@
 # Production environment
+
 FROM node:18-alpine
 
 # Do not use 'COPY . .' to copy all files. Copying all files will force a build even if no client files have been modified
@@ -8,24 +9,12 @@ WORKDIR /app
 
 # Environment variables
 ENV NODE_OPTIONS=--max_old_space_size=4096
-ENV NODE_ENV=production
-
-# Install system dependencies that might be needed for native modules
-RUN apk add --no-cache python3 make g++
 
 # Install
 COPY package.json ./
-COPY package-lock.json* ./
 COPY sync-package-lock ./
-
-# Make sync script executable and run it with error handling
-RUN chmod +x ./sync-package-lock || true
-RUN ./sync-package-lock || echo "sync-package-lock script failed, continuing with existing package-lock.json"
-
-# Clear cache and install dependencies
-RUN npm cache clean --force
 # In production, we will use the package lock generated in the development process. No versions surprises.
-RUN npm ci --only=production
+RUN npm install
 
 # Build
 COPY nodemon.json ./
