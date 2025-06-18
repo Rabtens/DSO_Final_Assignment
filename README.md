@@ -95,7 +95,7 @@ I wrote tests using Jest to make sure everything works correctly:
 
 ![alt text](<output screenshots/Screenshot from 2025-06-18 00-22-41.png>)
 
-## 🐳 Stage 1: Making It Work with Docker
+## Stage 1: Making It Work with Docker
 
 ### What Docker Does
 
